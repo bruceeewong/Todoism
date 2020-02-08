@@ -7,9 +7,11 @@
     @desc: 
 """
 import os
+import click
 
 from flask import Flask
 
+from todoism.extensions import db
 from todoism.settings import config
 
 
@@ -20,4 +22,26 @@ def create_app(config_name=None):
     app = Flask('todoism')
     app.config.from_object(config[config_name])
 
+    register_extensions(app)
+    register_commands(app)
+
     return app
+
+
+# 注册扩展程序
+def register_extensions(app):
+    db.init_app(app)  # SQLAlchemy
+
+
+# 注册 flask 指令
+def register_commands(app):
+    @app.cli.command()
+    @click.option('--drop', is_flag=True, help='Create db after drop')
+    def initdb(drop):
+        """Initialize the database"""
+        if drop:
+            click.confirm('This operation will delete the database, do you want to continue?', abort=True)
+            db.drop_all()
+            click.echo('Drop tables.')
+        db.create_all()
+        click.echo('Intialized database.')
