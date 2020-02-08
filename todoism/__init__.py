@@ -11,6 +11,7 @@ import click
 
 from flask import Flask
 
+from todoism.apis.v1 import api_v1
 from todoism.extensions import db
 from todoism.settings import config
 
@@ -23,6 +24,7 @@ def create_app(config_name=None):
     app.config.from_object(config[config_name])
 
     register_extensions(app)
+    register_blueprints(app)
     register_commands(app)
 
     return app
@@ -31,6 +33,12 @@ def create_app(config_name=None):
 # 注册扩展程序
 def register_extensions(app):
     db.init_app(app)  # SQLAlchemy
+
+
+# 注册蓝图
+def register_blueprints(app):
+    app.register_blueprint(api_v1, url_prefix='/api/v1')
+    # app.register_blueprint(api_v1, url_prefix='/v1', subdomain='api')  # enable subdomain support
 
 
 # 注册 flask 指令
