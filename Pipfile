@@ -10,6 +10,8 @@ watchdog = "*"
 flask = "*"
 python-dotenv = "*"
 flask-sqlalchemy = "*"
+flask-cors = "*"
+flask-login = "*"
 
 [requires]
 python_version = "3.7"

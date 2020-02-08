@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
     @author: Bruski Wang
-    @contact: bruski@qq.com
+    @contact: bruskiwang@outlook.com
     @file: settings.py
     @time: 2020/2/8
     @desc: 
