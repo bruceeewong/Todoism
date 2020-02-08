@@ -14,6 +14,7 @@ from flask import Flask
 from todoism.apis.v1 import api_v1
 from todoism.extensions import db
 from todoism.settings import config
+from todoism.models import User, Item  # 引用模型类, 数据库才会在create_all时自动生成表
 
 
 def create_app(config_name=None):

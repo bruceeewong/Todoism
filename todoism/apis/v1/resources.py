@@ -11,8 +11,11 @@ from flask.views import MethodView
 
 from todoism.apis.v1 import api_v1
 
-
 # 入口API /
+from todoism.apis.v1.schemas import item_schema
+from todoism.models import Item
+
+
 class IndexAPI(MethodView):
 
     def get(self):
@@ -26,6 +29,19 @@ class IndexAPI(MethodView):
             "current_user_active_items_url": "http://todoism.bruski.wang/api/v1/user/items/active{?page,per_page}",
             "current_user_completed_items_url": "http://todoism.bruski.wang/api/v1/user/items/completed{?page,per_page}",
         })
+
+# class UserAPI(MethodView):
+#
+#     def get(self):
+#         return jsonify(user_schema())
+
+# 目标ItemAPI
+# class ItemAPI(MethodView):
+#
+#     def get(self, item_id):
+#         """Get item."""
+#         item = Item.query.get_or_404(item_id)
+#         return jsonify(item_schema(item))
 
 
 # 注册路由
