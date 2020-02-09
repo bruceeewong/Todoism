@@ -110,11 +110,8 @@ $(document).ready(function () {
     // 移除 edit 输入框
     function remove_edit_input() {
         var $edit_input = $('#edit-item-input');
-        var $input = $('#item-input');
-
         $edit_input.parent().prev().show();
         $edit_input.parent().remove();
-        $input.focus();
     }
 
     // 重置各个count的数字
@@ -198,9 +195,6 @@ $(document).ready(function () {
     $(document).on('keyup', '#edit-item-input', edit_item.bind(this));
 
     $(document).on('click', '.done-btn', function () {
-        var $input = $('#item-input');
-
-        $input.focus();
         var $item = $(this).parent().parent();
         var $this = $(this);
 
@@ -279,10 +273,7 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.delete-btn', function () {
-        var $input = $('#item-input');
         var $item = $(this).parent().parent();
-
-        $input.focus();
         $.ajax({
             type: 'DELETE',
             url: $(this).data('href'),
@@ -370,10 +361,7 @@ $(document).ready(function () {
 
      // 点击 Tab栏 未完成
     $(document).on('click', '#active-item', function () {
-        var $input = $('#item-input');
         var $items = $('.item');
-
-        $input.focus();
         $items.show();
         // 隐藏已完成的
         $items.filter(function () {
@@ -383,10 +371,7 @@ $(document).ready(function () {
 
     // 点击 Tab栏 已完成
     $(document).on('click', '#completed-item', function () {
-        var $input = $('#item-input');
         var $items = $('.item');
-
-        $input.focus();
         $items.show();
         // 隐藏未完成的
         $items.filter(function () {
@@ -402,10 +387,7 @@ $(document).ready(function () {
 
     // 点击清除按钮响应函数
     $(document).on('click', '#clear-btn', function () {
-        var $input = $('#item-input');
         var $items = $('.item');
-
-        $input.focus();
         $.ajax({
             type: 'DELETE',
             url: clear_item_url,
