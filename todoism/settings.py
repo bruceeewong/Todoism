@@ -9,12 +9,13 @@
 import os
 
 # 项目根目录的绝对路径
+from flask import Flask
+
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 
 class BaseConfig:
-    SECRET_KEY = os.getenv('SECRET_KEY', 'a secret string')
-
+    SECRET_KEY = os.getenv('SECRET_KEY', Flask.secret_key)
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///' + os.path.join(basedir, 'data.db'))
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 

@@ -9,6 +9,16 @@
 from flask import url_for
 
 
+def user_schema(user):
+    return {
+        'id': user.id,
+        'self': url_for('.user', _external=True),
+        'kind': 'User',
+        'username': user.username,
+        # 'all_items_url': url_for('.items', _external=True),
+    }
+
+
 def item_schema(item):
     return {
         'id': item.id,

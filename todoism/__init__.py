@@ -12,7 +12,7 @@ import click
 from flask import Flask
 
 from todoism.apis.v1 import api_v1
-from todoism.extensions import db
+from todoism.extensions import db, login_manager
 from todoism.settings import config
 from todoism.models import User, Item  # 引用模型类, 数据库才会在create_all时自动生成表
 
@@ -34,6 +34,7 @@ def create_app(config_name=None):
 # 注册扩展程序
 def register_extensions(app):
     db.init_app(app)  # SQLAlchemy
+    login_manager.init_app(app)  # flask-login
 
 
 # 注册蓝图
