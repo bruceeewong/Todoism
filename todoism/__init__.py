@@ -14,7 +14,8 @@ from flask import Flask
 from todoism.apis.v1 import api_v1
 from todoism.blueprints.auth import auth_bp
 from todoism.blueprints.home import home_bp
-from todoism.extensions import db, login_manager
+from todoism.blueprints.todo import todo_bp
+from todoism.extensions import db, login_manager, csrf
 from todoism.settings import config
 from todoism.models import User, Item  # 引用模型类, 数据库才会在create_all时自动生成表
 
@@ -36,13 +37,16 @@ def create_app(config_name=None):
 # 注册扩展程序
 def register_extensions(app):
     db.init_app(app)  # SQLAlchemy
-    login_manager.init_app(app)  # flask-login
+    login_manager.init_app(app)  # flask_login LoginManager 实例
+    csrf.init_app(app)  # flask_wtf.csrf CSRFProtect实例
+    csrf.exempt(api_v1)  # TODO: 为什么要api接口不需要csrf防护
 
 
 # 注册蓝图
 def register_blueprints(app):
     app.register_blueprint(home_bp)
     app.register_blueprint(auth_bp)
+    app.register_blueprint(todo_bp)
     app.register_blueprint(api_v1, url_prefix='/api/v1')
     # app.register_blueprint(api_v1, url_prefix='/v1', subdomain='api')  # enable subdomain support
 

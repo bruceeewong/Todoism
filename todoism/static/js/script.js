@@ -31,6 +31,7 @@ $(document).ready(function () {
     // 配置 ajax
     $.ajaxSetup({
         beforeSend: function (xhr, settings) {
+            // 除了GET|HEAD|OPTIONS|TRACE, 其他请求都要附带 csrf_token
             if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
                 xhr.setRequestHeader('X-CSRFToken', csrf_token);
             }
@@ -71,6 +72,7 @@ $(document).ready(function () {
         $(window).trigger('hashchange'); // user refreshed the browser, fire the appropriate function
     }
 
+    // 切换密码输入框的可见性
     function toggle_password() {
         var password_input = document.getElementById('password-input');
         if (password_input.type === 'password') {
@@ -79,7 +81,6 @@ $(document).ready(function () {
             password_input.type = 'password';
         }
     }
-
     $(document).on('click', '#toggle-password', toggle_password);
 
     function display_dashboard() {
@@ -92,6 +93,7 @@ $(document).ready(function () {
         }
     }
 
+    // TODO: 激活 app 页面?
     function activeM() {
         $('.sidenav').sidenav();
         $('ul.tabs').tabs();
@@ -284,6 +286,11 @@ $(document).ready(function () {
         });
     });
 
+
+    /**
+     *  注册模块
+     *  此处是后端返回随机账户和密码, 所以直接 GET
+     */
     function register() {
         $.ajax({
             type: 'GET',
@@ -295,9 +302,12 @@ $(document).ready(function () {
             }
         });
     }
-
+    // 注册按钮点击响应事件
     $(document).on('click', '#register-btn', register);
 
+    /**
+     *  登录模块
+     */
     function login_user() {
         var username = $('#username-input').val();
         var password = $('#password-input').val();
@@ -316,6 +326,7 @@ $(document).ready(function () {
             data: JSON.stringify(data),
             contentType: 'application/json;charset=UTF-8',
             success: function (data) {
+                // 登录成功, 跳转到 app 页
                 if (window.location.hash === '#app' || window.location.hash === 'app') {
                     $(window).trigger('hashchange');
                 } else {
@@ -326,15 +337,14 @@ $(document).ready(function () {
             }
         });
     }
-
-
+    // 登录输入框回车响应事件
     $(document).on('keyup', '.login-input', function (e) {
         if (e.which === ENTER_KEY) {
             login_user();
         }
 
     });
-
+    // 登录按钮点击响应事件
     $(document).on('click', '#login-btn', login_user);
 
 

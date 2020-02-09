@@ -14,9 +14,17 @@
 <script src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 <script>
+    var csrf_token = "{{ csrf_token() }}";
+
     var intro_page_url = "{{ url_for('home.intro') }}";
     var login_page_url = "{{ url_for('auth.login') }}";
+    var app_page_url = "{{ url_for('todo.app') }}";
+
+    var register_url = "{{ url_for('auth.register') }}";
+    var login_url = "{{ url_for('auth.login') }}";
+
     var default_error_message = "{{ 'Oops, something was wrong!' }}";
+    var login_error_message = "{{ 'Empty username or password!' }}";
 </script>
 </body>
 </html>
