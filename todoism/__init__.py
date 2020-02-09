@@ -12,6 +12,7 @@ import click
 from flask import Flask
 
 from todoism.apis.v1 import api_v1
+from todoism.blueprints.auth import auth_bp
 from todoism.blueprints.home import home_bp
 from todoism.extensions import db, login_manager
 from todoism.settings import config
@@ -41,6 +42,7 @@ def register_extensions(app):
 # 注册蓝图
 def register_blueprints(app):
     app.register_blueprint(home_bp)
+    app.register_blueprint(auth_bp)
     app.register_blueprint(api_v1, url_prefix='/api/v1')
     # app.register_blueprint(api_v1, url_prefix='/v1', subdomain='api')  # enable subdomain support
 
