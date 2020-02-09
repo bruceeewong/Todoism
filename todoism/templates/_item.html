@@ -1,0 +1,24 @@
+<div class="row item card-panel hoverable">
+    <span class="item-body">
+        <a class="button done-btn">
+            <i class="material-icons left">
+                {% if item.done %}
+                    check_box
+                {% else %}
+                    check_box_outline_blank
+                {% endif %}
+            </i>
+        </a>
+        <span class="{% if item.done %}inactive-item{% else %}active-item{% endif %}">
+            {{ item.body }}
+        </span>
+    </span>
+    <span class="hide edit-btns right">
+        <a class="right button delete-btn">
+            <i class="material-icons small-icon left">clear</i>
+        </a>
+        <a class="right button edit-btn">
+            <i class="material-icons small-icon left">mode_edit</i>
+        </a>
+    </span>
+</div>
