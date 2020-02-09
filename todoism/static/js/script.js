@@ -107,6 +107,7 @@ $(document).ready(function () {
         display_dashboard();
     }
 
+    // 移除 edit 输入框
     function remove_edit_input() {
         var $edit_input = $('#edit-item-input');
         var $input = $('#item-input');
@@ -116,6 +117,7 @@ $(document).ready(function () {
         $input.focus();
     }
 
+    // 重置各个count的数字
     function refresh_count() {
         var $items = $('.item');
 
@@ -133,6 +135,7 @@ $(document).ready(function () {
         $('#completed-count').html(completed_count);
     }
 
+    // 新增 item 函数
     function new_item(e) {
         var $input = $('#item-input');
         var value = $input.val().trim();
@@ -147,6 +150,8 @@ $(document).ready(function () {
             contentType: 'application/json;charset=UTF-8',
             success: function (data) {
                 M.toast({html: data.message, classes: 'rounded'});
+
+                // 将新增的元素的html插到最后
                 $('.items').append(data.html);
                 activeM();
                 refresh_count();
@@ -154,6 +159,7 @@ $(document).ready(function () {
         });
     }
 
+    // 编辑 item 函数
     function edit_item(e) {
         var $edit_input = $('#edit-item-input');
         var value = $edit_input.val().trim();
@@ -176,9 +182,10 @@ $(document).ready(function () {
             data: JSON.stringify({'body': value}),
             contentType: 'application/json;charset=UTF-8',
             success: function (data) {
-                $('#body' + id).html(value);
-                $edit_input.parent().prev().data('body', value);
-                remove_edit_input();
+                // 后端告知更新成功时, 可直接拿输入框的值更新UI
+                $('#body' + id).html(value); // 更新item的body显示值
+                $edit_input.parent().prev().data('body', value); // 更新item的body绑定值
+                remove_edit_input(); // 移除输入框换成普通div
                 M.toast({html: data.message});
             }
         })
@@ -227,20 +234,23 @@ $(document).ready(function () {
         }
     });
 
-    // hide and show edit buttons
-    $(document).on('mouseenter', '.item', function () {
-        $(this).find('.edit-btns').removeClass('hide');
-    })
+    // .item 类的元素, 编辑按钮平时隐藏, 悬浮时出现
+    $(document)
+        .on('mouseenter', '.item', function () {
+            $(this).find('.edit-btns').removeClass('hide');
+        })
         .on('mouseleave', '.item', function () {
             $(this).find('.edit-btns').addClass('hide');
         });
 
-    // edit item
+    // 点击 edit btn 响应事件
     $(document).on('click', '.edit-btn', function () {
-
+        // 先获取绑在.item上的id 与 body
         var $item = $(this).parent().parent();
         var itemId = $item.data('id');
         var itemBody = $('#body' + itemId).text();
+
+        // 再隐藏原来的元素, 替换成一个输入框
         $item.hide();
         $item.after('<div class="row card-panel hoverable">' +
                 '<input class="validate" id="edit-item-input" type="text" value="' + itemBody +
@@ -249,15 +259,14 @@ $(document).ready(function () {
 
         var $edit_input = $('#edit-item-input');
 
-        // Focus at the end of input text.
-        // Multiply by 2 to ensure the cursor always ends up at the end;
+        // *2 是为了让光标 focus 在文字后
         // Opera sometimes sees a carriage return as 2 characters.
         var strLength = $edit_input.val().length * 2;
 
         $edit_input.focus();
         $edit_input[0].setSelectionRange(strLength, strLength);
 
-        // Remove edit form when ESC was pressed or focus out.
+        // 移除 edit form 当按下 ESC 或 focus out.
         $(document).on('keydown', function (e) {
             if (e.keyCode === ESC_KEY) {
                 remove_edit_input();

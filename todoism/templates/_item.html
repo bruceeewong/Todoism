@@ -1,6 +1,15 @@
-<div class="row item card-panel hoverable">
+<div
+    class="row item card-panel hoverable"
+    data-href="{{ url_for('.edit_item', item_id=item.id) }}"
+    data-id="{{ item.id }}"
+    data-body="{{ item.body }}"
+    data-done="{{ item.done|tojson }}"
+>
     <span class="item-body">
-        <a class="button done-btn">
+        <a
+            class="button done-btn"
+            data-href="{{ url_for('.toggle_item', item_id=item.id) }}"
+        >
             <i class="material-icons left">
                 {% if item.done %}
                     check_box

@@ -35,3 +35,31 @@ def new_item():
     db.session.add(item)
     db.session.commit()
     return jsonify(html=render_template('_item.html', item=item), message='+1')
+
+
+@todo_bp.route('/item/<int:item_id>/edit', methods=['PUT'])
+@login_required
+def edit_item(item_id):
+    item = Item.query.get_or_404(item_id)
+    if current_user != item.author:
+        return jsonify(message='Permission denied.'), 403
+
+    data = request.get_json()
+    if data is None or data['body'].strip() == '':
+        return jsonify(message='Invalid item body'), 400
+    # 更新数据
+    item.body = data['body']
+    db.session.commit()
+    return jsonify(message='Item updated.')
+
+
+@todo_bp.route('/item/<int:item_id>/toggle', methods=['PATCH'])
+@login_required
+def toggle_item(item_id):
+    item = Item.query.get_or_404(item_id)
+    if current_user != item.author:
+        return jsonify(message='Permission denied.'), 403
+
+    item.done = not item.done
+    db.session.commit()
+    return jsonify(message='Item toggled.')
