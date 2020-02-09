@@ -10,6 +10,7 @@ import os
 import click
 
 from flask import Flask
+from flask_login import current_user
 
 from todoism.apis.v1 import api_v1
 from todoism.blueprints.auth import auth_bp
@@ -29,6 +30,7 @@ def create_app(config_name=None):
 
     register_extensions(app)
     register_blueprints(app)
+    register_template_context(app)
     register_commands(app)
 
     return app
@@ -49,6 +51,17 @@ def register_blueprints(app):
     app.register_blueprint(todo_bp)
     app.register_blueprint(api_v1, url_prefix='/api/v1')
     # app.register_blueprint(api_v1, url_prefix='/v1', subdomain='api')  # enable subdomain support
+
+
+# 注册template上下文
+def register_template_context(app):
+    @app.context_processor
+    def make_template_context():
+        if current_user.is_authenticated:
+            active_items = Item.query.with_parent(current_user).filter_by(done=False).count()
+        else:
+            active_items = None
+        return dict(active_items=active_items)
 
 
 # 注册 flask 指令

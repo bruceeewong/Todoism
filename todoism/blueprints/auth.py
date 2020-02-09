@@ -6,8 +6,8 @@
     @time: 2020/2/9
     @desc: 
 """
-from flask import Blueprint, render_template, request, jsonify
-from flask_login import login_user
+from flask import Blueprint, render_template, request, jsonify, redirect, url_for
+from flask_login import login_user, logout_user, current_user, login_required
 from faker import Faker
 
 from todoism.extensions import db
@@ -19,6 +19,9 @@ fake = Faker()
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('todo.app'))
+
     if request.method == 'POST':
         data = request.get_json()
         username = data['username']
@@ -33,6 +36,13 @@ def login():
             return jsonify(message='Login success')
         return jsonify(message='Invalid username or password'), 400
     return render_template('_login.html')
+
+
+@auth_bp.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return jsonify(message='Logout success.')
 
 
 @auth_bp.route('/register')
