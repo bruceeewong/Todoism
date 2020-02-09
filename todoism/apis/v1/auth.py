@@ -15,19 +15,26 @@ from todoism.models import User
 from todoism.apis.v1.errors import api_abort, token_missing, invalid_token
 
 
-# 根据app的SECRET_KEY生成token
 def generate_token(user):
+    """
+    根据app的SECRET_KEY生成token
+    :param user:
+    :return:
+    """
     expiration = 3600  # 1小时有效期
     s = Serializer(current_app.config['SECRET_KEY'], expires_in=expiration)
     token = s.dumps({'id': user.id}).decode('ascii')
     return token, expiration
 
 
-# 验证token
 def validate_token(token):
-    # 利用Serializer加秘钥去解密传来的token
-    # 如果解密后的id能找到user代表没问题, 设置全局的current_user为该user
-    # 否则有可能是token被篡改或过期
+    """验证token
+    利用Serializer加秘钥去解密传来的token
+    如果解密后的id能找到user代表没问题, 设置全局的current_user为该user
+    否则有可能是token被篡改或过期
+    :param token:
+    :return:
+    """
     s = Serializer(current_app.config['SECRET_KEY'])
     try:
         data = s.loads(token)
@@ -43,13 +50,17 @@ def validate_token(token):
     return True
 
 
-# 从请求的headers中获取认证信息
 def get_token():
+    """
+    从请求的headers中获取认证信息
+    :return:
+    """
     # Flask/Werkzeug 不识别任何 authentication 类型
     # 所以我们手动解析 header
     if 'Authorization' in request.headers:
         try:
-            token_type, token = request.headers['Authorization'].split(None, 1)  # TODO: what is this
+            # request.headers['Authorization'] look like "Bearer xxxxxxxx..."
+            token_type, token = request.headers['Authorization'].split(None, 1)
         except ValueError:
             # The Authorization header is either empty or has no token
             token_type = token = None
@@ -59,8 +70,8 @@ def get_token():
     return token_type, token
 
 
-# 认证校验装饰器
 def auth_required(f):
+    """认证校验装饰器"""
     @wraps(f)
     def decorated(*args, **kwargs):
         token_type, token = get_token()

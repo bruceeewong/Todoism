@@ -4,7 +4,7 @@
     @contact: bruskiwang@outlook.com
     @file: auth.py
     @time: 2020/2/9
-    @desc: 
+    @desc: 用户认证模块
 """
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for
 from flask_login import login_user, logout_user, current_user, login_required
@@ -32,7 +32,7 @@ def login():
 
         # 在验证密码
         if user is not None and user.validate_password(password):
-            login_user(user)  # TODO: flask_login的工具函数, 不懂内部做了什么
+            login_user(user)  # flask_login的工具函数, 根据用户ID与其他值生成session
             return jsonify(message='Login success')
         return jsonify(message='Invalid username or password'), 400
     return render_template('_login.html')

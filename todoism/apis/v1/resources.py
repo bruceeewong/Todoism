@@ -117,7 +117,7 @@ class ItemAPI(MethodView):
             return api_abort(403)
         db.session.delete(item)
         db.session.commit()
-        return ''
+        return '', 204
 
 
 # 多个todo目标资源相关API
