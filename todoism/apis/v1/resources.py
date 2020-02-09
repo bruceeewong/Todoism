@@ -50,5 +50,5 @@ class ItemAPI(MethodView):
 
 # 注册路由
 api_v1.add_url_rule('/', view_func=IndexAPI.as_view('index'), methods=['GET'])
-api_v1.add_url_rule('/user/<int:item_id>', view_func=UserAPI.as_view('user'), methods=['GET'])
-api_v1.add_url_rule('/item/<int:item_id>', view_func=ItemAPI.as_view('item'), methods=['GET'])
+# api_v1.add_url_rule('/user/<int:item_id>', view_func=UserAPI.as_view('user'), methods=['GET'])
+# api_v1.add_url_rule('/item/<int:item_id>', view_func=ItemAPI.as_view('item'), methods=['GET'])

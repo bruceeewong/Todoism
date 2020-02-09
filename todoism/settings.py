@@ -15,7 +15,7 @@ basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 
 class BaseConfig:
-    SECRET_KEY = os.getenv('SECRET_KEY', Flask.secret_key)
+    SECRET_KEY = os.getenv('SECRET_KEY', 'a secret key')
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///' + os.path.join(basedir, 'data.db'))
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
