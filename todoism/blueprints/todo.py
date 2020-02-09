@@ -63,3 +63,15 @@ def toggle_item(item_id):
     item.done = not item.done
     db.session.commit()
     return jsonify(message='Item toggled.')
+
+
+@todo_bp.route('/item/<int:item_id>/delete', methods=['DELETE'])
+@login_required
+def delete_item(item_id):
+    item = Item.query.get_or_404(item_id)
+    if current_user != item.author:
+        return jsonify(message='Permission denied.'), 403
+
+    db.session.delete(item)
+    db.session.commit()
+    return jsonify(message='Item deleted')
