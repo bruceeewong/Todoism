@@ -10,17 +10,12 @@
             class="button done-btn"
             data-href="{{ url_for('.toggle_item', item_id=item.id) }}"
         >
-            <i class="material-icons left">
-                {% if item.done %}
-                    check_box
-                {% else %}
-                    check_box_outline_blank
-                {% endif %}
-            </i>
+            <i class="material-icons left">{% if item.done %}check_box{% else %}check_box_outline_blank{% endif %}</i>
         </a>
-        <span class="{% if item.done %}inactive-item{% else %}active-item{% endif %}">
-            {{ item.body }}
-        </span>
+        <span
+            class="{% if item.done %}inactive-item{% else %}active-item{% endif %}"
+            id="body{{ item.id }}"
+        >{{ item.body }}</span>
     </span>
     <span class="hide edit-btns right">
         <a

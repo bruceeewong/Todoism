@@ -368,7 +368,6 @@ $(document).ready(function () {
         });
     });
 
-
      // 点击 Tab栏 未完成
     $(document).on('click', '#active-item', function () {
         var $input = $('#item-input');
