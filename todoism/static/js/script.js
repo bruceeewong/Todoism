@@ -355,8 +355,7 @@ $(document).ready(function () {
     });
     // 登录按钮点击响应事件
     $(document).on('click', '#login-btn', login_user);
-
-
+    // 登出事件
     $(document).on('click', '#logout-btn', function () {
         $.ajax({
             type: 'GET',
@@ -370,33 +369,39 @@ $(document).ready(function () {
     });
 
 
+     // 点击 Tab栏 未完成
     $(document).on('click', '#active-item', function () {
         var $input = $('#item-input');
         var $items = $('.item');
 
         $input.focus();
         $items.show();
+        // 隐藏已完成的
         $items.filter(function () {
             return $(this).data('done');
         }).hide();
     });
 
+    // 点击 Tab栏 已完成
     $(document).on('click', '#completed-item', function () {
         var $input = $('#item-input');
         var $items = $('.item');
 
         $input.focus();
         $items.show();
+        // 隐藏未完成的
         $items.filter(function () {
             return !$(this).data('done');
         }).hide();
     });
 
+    // 点击 Tab栏 所有
     $(document).on('click', '#all-item', function () {
         $('#item-input').focus();
         $('.item').show();
     });
 
+    // 点击清除按钮响应函数
     $(document).on('click', '#clear-btn', function () {
         var $input = $('#item-input');
         var $items = $('.item');

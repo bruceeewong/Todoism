@@ -75,3 +75,13 @@ def delete_item(item_id):
     db.session.delete(item)
     db.session.commit()
     return jsonify(message='Item deleted')
+
+
+@todo_bp.route('/item/clear', methods=['DELETE'])
+@login_required
+def clear_items():
+    items = Item.query.with_parent(current_user).filter_by(done=True).all()
+    for item in items:
+        db.session.delete(item)
+    db.session.commit()
+    return jsonify(message='All clear!')

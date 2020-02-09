@@ -24,7 +24,9 @@
     var register_url = "{{ url_for('auth.register') }}";
     var login_url = "{{ url_for('auth.login') }}";
     var logout_url = "{{ url_for('auth.logout') }}";
+
     var new_item_url = "{{ url_for('todo.new_item') }}";
+    var clear_item_url = "{{ url_for('todo.clear_items') }}";
 
     var default_error_message = "{{ 'Oops, something was wrong!' }}";
     var login_error_message = "{{ 'Empty username or password!' }}";
