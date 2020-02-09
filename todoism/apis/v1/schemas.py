@@ -33,3 +33,16 @@ def item_schema(item):
             'kind': 'User',
         },
     }
+
+
+def items_schema(items, current, prev, next, pagination):
+    return {
+        'self': current,
+        'kind': 'ItemCollection',
+        'items': [item_schema(item) for item in items],
+        'prev': prev,
+        'next': next,
+        'last': url_for('.items', page=pagination.pages, _external=True),
+        'first': url_for('.items', page=1, _external=True),
+        'count': pagination.total,
+    }
